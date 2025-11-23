@@ -1,11 +1,13 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA   # <-- NEW
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
+from utils.plot import evaluate_and_plot  # <-- NEW
 
 def train_svm_with_cv(df):
     """
-    SVM (RBF kernel) with StandardScaler + GridSearchCV cross-validation.
+    SVM (RBF kernel) with StandardScaler + PCA + GridSearchCV cross-validation.
     Matches CIS4020 report requirements.
     """
 
@@ -37,11 +39,21 @@ def train_svm_with_cv(df):
     # 4. Scale features
     # ============================
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train_raw)
-    X_test = scaler.transform(X_test_raw)
+    X_train_scaled = scaler.fit_transform(X_train_raw)
+    X_test_scaled = scaler.transform(X_test_raw)
 
     # ============================
-    # 5. Cross-Validation Grid
+    # 5. PCA
+    # ============================
+    pca = PCA(n_components=0.95)
+    X_train = pca.fit_transform(X_train_scaled)
+    X_test = pca.transform(X_test_scaled)
+
+    print(f"📉 SVM PCA components: {pca.n_components_}")
+    print(f"   Total explained variance: {pca.explained_variance_ratio_.sum():.4f}")
+
+    # ============================
+    # 6. Cross-Validation Grid
     # ============================
     param_grid = {
         "C": [0.1, 1, 5, 10],
@@ -63,7 +75,7 @@ def train_svm_with_cv(df):
     print("🔧 Best SVM Parameters:", grid.best_params_)
 
     # ============================
-    # 6. Final Evaluation
+    # 7. Final Evaluation
     # ============================
     preds = best_model.predict(X_test)
 
@@ -71,4 +83,6 @@ def train_svm_with_cv(df):
     print("Test Accuracy:", accuracy_score(y_test, preds))
     print(classification_report(y_test, preds))
 
-    return best_model, scaler
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="SVM")
+
+    return best_model, scaler, pca, metrics_dict

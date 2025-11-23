@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
+from utils.plot import evaluate_and_plot  # <-- NEW
 import numpy as np
 
 def train_random_forest_with_cv(df):
@@ -67,6 +68,8 @@ def train_random_forest_with_cv(df):
     print("Test Accuracy:", accuracy_score(y_test, preds))
     print(classification_report(y_test, preds))
 
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="RandomForest")
+
     # ============================
     # 6. Feature Importance
     # ============================
@@ -77,4 +80,4 @@ def train_random_forest_with_cv(df):
     for idx in sorted_idx:
         print(f"{feature_cols[idx]}: {importances[idx]:.4f}")
 
-    return best_model
+    return best_model, metrics_dict
