@@ -11,13 +11,13 @@ def main():
     df = load_stock_data("data/AMZN.csv")
     df = add_indicators(df)
 
-    # # ======= Logistic Regression =======
-    # logreg_model, logreg_scaler, logreg_pca, logreg_metrics = train_logistic_with_cv(df)
-    # print("\nLogReg metrics:", logreg_metrics)
+    # ======= Logistic Regression =======
+    logreg_model, logreg_scaler, logreg_pca, logreg_metrics = train_logistic_with_cv(df)
+    print("\nLogReg metrics:", logreg_metrics)
 
-    # # ======= SVM =======
-    # svm_model, svm_scaler, svm_pca, svm_metrics = train_svm_with_cv(df)
-    # print("\nSVM metrics:", svm_metrics)
+    # ======= SVM =======
+    svm_model, svm_scaler, svm_pca, svm_metrics = train_svm_with_cv(df)
+    print("\nSVM metrics:", svm_metrics)
 
     # ======= Random Forest =======
     rf_model, rf_metrics = train_random_forest_with_cv(df)
