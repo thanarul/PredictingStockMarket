@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, classification_report
 from utils.plot import evaluate_and_plot  # <-- NEW
 import numpy as np
 
-def train_random_forest_with_cv(df):
+def train_random_forest_with_cv(df, csv: str):
     """
     Random Forest Classifier + GridSearchCV.
     Matches CIS4020 report requirements.
@@ -68,7 +68,7 @@ def train_random_forest_with_cv(df):
     print("Test Accuracy:", accuracy_score(y_test, preds))
     print(classification_report(y_test, preds))
 
-    metrics_dict = evaluate_and_plot(y_test, preds, model_name="RandomForest")
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="RandomForest", csv=csv)
 
     # ============================
     # 6. Feature Importance

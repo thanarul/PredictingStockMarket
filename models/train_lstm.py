@@ -7,7 +7,7 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
 import tensorflow as tf
 
-def train_lstm_classifier(df):
+def train_lstm_classifier(df, csv: str):
     '''
     LSTM Classifier for predicting next-day direction
     '''
@@ -86,6 +86,6 @@ def train_lstm_classifier(df):
     print("Test Accuracy:", accuracy_score(y_test, preds))
     print(classification_report(y_test, preds))
 
-    metrics_dict = evaluate_and_plot(y_test, preds, model_name="LSTM")
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="LSTM", csv=csv)
 
     return model, scaler, metrics_dict

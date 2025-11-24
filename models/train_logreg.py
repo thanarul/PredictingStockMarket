@@ -6,7 +6,7 @@ from sklearn.metrics import classification_report, accuracy_score
 from utils.plot import evaluate_and_plot  # <-- NEW
 import numpy as np
 
-def train_logistic_with_cv(df):
+def train_logistic_with_cv(df, csv : str):
     """
     Logistic Regression with StandardScaler + PCA + GridSearchCV cross-validation.
     Matches CIS4020 report requirements.
@@ -85,7 +85,7 @@ def train_logistic_with_cv(df):
     print(classification_report(y_test, preds))
 
     # Confusion matrix + bar plot + metrics
-    metrics_dict = evaluate_and_plot(y_test, preds, model_name="LogisticRegression")
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="LogisticRegression", csv=csv)
 
     # Return model, scaler and PCA (so you can use them later if needed)
     return best_model, scaler, pca, metrics_dict

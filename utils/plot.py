@@ -13,7 +13,7 @@ from sklearn.metrics import (
     f1_score,
 )
 
-def evaluate_and_plot(y_test, preds, model_name: str, save_dir: str = "plots"):
+def evaluate_and_plot(y_test, preds, model_name: str, csv: str, save_dir: str = "plots"):
     """
     Compute evaluation metrics, print them, and save:
       - confusion matrix
@@ -43,7 +43,7 @@ def evaluate_and_plot(y_test, preds, model_name: str, save_dir: str = "plots"):
     disp.plot(ax=ax_cm, colorbar=False)
     ax_cm.set_title(f"{model_name} – Confusion Matrix")
     fig_cm.tight_layout()
-    fig_cm.savefig(os.path.join(save_dir, f"{model_name}_confusion_matrix.png"))
+    fig_cm.savefig(os.path.join(save_dir, f"{csv}_{model_name}_confusion_matrix.png"))
     plt.close(fig_cm)
 
     # ===== Bar plot of metrics =====
@@ -60,7 +60,7 @@ def evaluate_and_plot(y_test, preds, model_name: str, save_dir: str = "plots"):
         ax_bar.text(i, v + 0.01, f"{v:.2f}", ha="center")
 
     fig_bar.tight_layout()
-    fig_bar.savefig(os.path.join(save_dir, f"{model_name}_metrics_bar.png"))
+    fig_bar.savefig(os.path.join(save_dir, f"{csv}_{model_name}_metrics_bar.png"))
     plt.close(fig_bar)
 
     return {

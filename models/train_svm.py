@@ -5,7 +5,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 from utils.plot import evaluate_and_plot  # <-- NEW
 
-def train_svm_with_cv(df):
+def train_svm_with_cv(df, csv: str):
     """
     SVM (RBF kernel) with StandardScaler + PCA + GridSearchCV cross-validation.
     Matches CIS4020 report requirements.
@@ -83,6 +83,6 @@ def train_svm_with_cv(df):
     print("Test Accuracy:", accuracy_score(y_test, preds))
     print(classification_report(y_test, preds))
 
-    metrics_dict = evaluate_and_plot(y_test, preds, model_name="SVM")
+    metrics_dict = evaluate_and_plot(y_test, preds, model_name="SVM", csv=csv)
 
     return best_model, scaler, pca, metrics_dict
